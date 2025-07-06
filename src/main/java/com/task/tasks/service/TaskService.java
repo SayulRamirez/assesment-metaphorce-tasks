@@ -1,33 +1,29 @@
 package com.task.tasks.service;
 
 import java.util.List;
-import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.task.tasks.dto.Task;
 import com.task.tasks.repository.TaskRepository;
 
 @Service
+@RequiredArgsConstructor
 public class TaskService {
-    @Autowired
-    private TaskRepository repository;
 
-    Logger logger = LogManager.getLogger(TaskService.class);
+    private final TaskRepository repository;
 
-    public TaskService(TaskRepository repository) {
-        this.repository = repository;
-    }
+    private static final Logger logger = LogManager.getLogger(TaskService.class);
 
     public Task createTask(Task task) {
-        Task newTask = null;
-
-        newTask = this.repository.save(task);
-
-        return newTask;
+        return this.repository.save(new Task(
+                null,
+                task.getTitle(),
+                task.isCompleted())
+        );
     }
 
     public List<Task> getAllTasks() {
