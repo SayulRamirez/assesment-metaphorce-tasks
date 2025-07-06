@@ -1,6 +1,7 @@
-package com.task.service;
+package com.task.tasks.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +37,7 @@ public class TaskService {
     public Task getTaskById(Long taskId) {
         Task data = null;
 
-        data = this.repository.findById(taskId).orElseThrow;
+        data = this.repository.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found " + taskId));
 
         return data;
     }
@@ -49,7 +50,7 @@ public class TaskService {
         update.setTitle(taskToUpdate.getTitle());
         update.setCompleted(taskToUpdate.isCompleted());
 
-        update = this.repository.saveAndFlush();
+        update = this.repository.saveAndFlush(update);
 
         return update;
     }

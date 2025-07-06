@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.task.service.TaskService;
+import com.task.tasks.service.TaskService;
 import com.task.tasks.dto.Task;
 
 import lombok.RequiredArgsConstructor;
