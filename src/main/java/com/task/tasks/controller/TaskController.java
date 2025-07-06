@@ -11,32 +11,35 @@ import com.task.tasks.dto.Task;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/api/v1/tasks")
+@RequiredArgsConstructor
 public class TaskController {
 
     private final TaskService taskService;
 
-    public TaskController(TaskService service) {
-        this.taskService = service;
-    }
-
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         return ResponseEntity.ok(taskService.createTask(task));
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Task> updateTask(@RequestParam Long id, @RequestBody Task task) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
         return ResponseEntity.ok(taskService.updateTask(id, task));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTask(@RequestParam Long id) {
+    public ResponseEntity<Task> getTask(@PathVariable Long id) {
         return ResponseEntity.ok(taskService.getTaskById(id));
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Task>> getAllTask() {
         return ResponseEntity.ok(taskService.getAllTasks());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+        return taskService.deleteTask(id) ?
+                ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }
