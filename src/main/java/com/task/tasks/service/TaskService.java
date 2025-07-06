@@ -18,6 +18,10 @@ public class TaskService {
 
     Logger logger = LogManager.getLogger(TaskService.class);
 
+    public TaskService(TaskRepository repository) {
+        this.repository = repository;
+    }
+
     public Task createTask(Task task) {
         Task newTask = null;
 
