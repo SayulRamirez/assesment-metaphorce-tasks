@@ -3,40 +3,39 @@ package com.task.tasks.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.task.service.TaskService;
+import com.task.tasks.service.TaskService;
 import com.task.tasks.dto.Task;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequiredArgsConstructor
+@RequestMapping("/tasks")
 public class TaskController {
 
     private final TaskService taskService;
 
-    @PostMapping
+    public TaskController(TaskService service) {
+        this.taskService = service;
+    }
+
+    @PostMapping("/")
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         return ResponseEntity.ok(taskService.createTask(task));
     }
 
-    @PutMapping(value = "{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Task> updateTask(@RequestParam Long id, @RequestBody Task task) {
         return ResponseEntity.ok(taskService.updateTask(id, task));
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Task> getTask(@RequestParam Long id) {
         return ResponseEntity.ok(taskService.getTaskById(id));
     }
 
-    @GetMapping(value = "all")
+    @GetMapping("/")
     public ResponseEntity<List<Task>> getAllTask() {
         return ResponseEntity.ok(taskService.getAllTasks());
     }
